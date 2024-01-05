@@ -11,6 +11,6 @@ ___
 - ### Hibernate
 - ### Web
 - ### Microservices
-___ 
-
-В курсе производилась работа с ветками git.
+___
+The course worked with git branches.
+THIS LINE IS TO BE MERGED AS PART OF THE LESSON "Merge conflicts"
