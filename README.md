@@ -23,6 +23,9 @@ ___
 ---
 - ### Microservices
 ___
+The course worked with git branches.
+THIS LINE IS TO BE MERGED AS PART OF THE LESSON "Merge conflicts"
+___
 
 Merging local changes
 
