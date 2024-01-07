@@ -12,6 +12,7 @@ ___
         - creating a branch from Idea;
         - amending a commit;
         - doing rollback with soft restore;
+        - stashing git changes;
 ---
 - ### Spring Core
 ---
