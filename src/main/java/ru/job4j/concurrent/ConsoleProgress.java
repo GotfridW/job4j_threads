@@ -12,7 +12,8 @@ public class ConsoleProgress implements Runnable {
             try {
                 Thread.sleep(500);
             } catch (InterruptedException e) {
-                break;
+                Thread.currentThread().interrupt();
+                System.out.printf("%nLoading interrupted%n");
             }
         }
      }
@@ -23,7 +24,7 @@ public class ConsoleProgress implements Runnable {
         try {
             Thread.sleep(5000);
         } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
         progress.interrupt();
     }
