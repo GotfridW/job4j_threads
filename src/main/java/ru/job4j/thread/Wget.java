@@ -39,7 +39,7 @@ public class Wget implements Runnable {
     }
 
     private void delay(int bytesRead, long loadTime) {
-        long sleepTime = (long) ((double) bytesRead / this.speed * ONE_SECOND) - loadTime;
+        long sleepTime = (bytesRead / this.speed * ONE_SECOND) - loadTime;
         if (sleepTime > 0) {
             try {
                 Thread.sleep(sleepTime);
@@ -58,28 +58,31 @@ public class Wget implements Runnable {
              FileOutputStream output = new FileOutputStream(file)) {
 
             byte[] dataBuffer = new byte[1024];
-            int bytesRead, bytesCounter = 0;
-            long start = currentTimeMillis(), loadStart = start;
+            int bytesRead;
+            int bytesCounter = 0;
+            long start = currentTimeMillis();
+            long loadStart = currentTimeMillis();
 
             while (!Thread.currentThread().isInterrupted()
                     && (bytesRead = input.read(dataBuffer, 0, dataBuffer.length)) != -1) {
-                long loadTime = currentTimeMillis() - loadStart;
                 output.write(dataBuffer, 0, bytesRead);
                 bytesCounter += bytesRead;
 
                 if (bytesCounter >= speed) {
-                    delay(bytesCounter, loadTime);
-                    bytesCounter = 0;
-                    loadStart = currentTimeMillis();
-                } else if (input.available() == 0) {
-                    delay(bytesCounter, loadTime);
+                    long loadTime = currentTimeMillis() - loadStart;
+                    long sleepTime = (bytesCounter / speed * ONE_SECOND) - loadTime;
+                    if (sleepTime > 0) {
+                        Thread.sleep(sleepTime);
+                        bytesCounter = 0;
+                        loadStart = currentTimeMillis();
+                    }
                 }
             }
-
             long finish = currentTimeMillis();
             System.out.printf("Downloaded %d bytes in %d ms, download rate - %sb/s",
                     file.length(), finish - start, speed);
-        } catch (IOException e) {
+        } catch (IOException | InterruptedException e) {
+            Thread.currentThread().interrupt();
             e.printStackTrace();
         }
     }
