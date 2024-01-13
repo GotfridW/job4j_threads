@@ -38,18 +38,6 @@ public class Wget implements Runnable {
         }
     }
 
-    private void delay(int bytesRead, long loadTime) {
-        long sleepTime = (bytesRead / this.speed * ONE_SECOND) - loadTime;
-        if (sleepTime > 0) {
-            try {
-                Thread.sleep(sleepTime);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-                e.printStackTrace();
-            }
-        }
-    }
-
     @Override
     public void run() {
         String fileName = url.substring(url.lastIndexOf("/") + 1);
@@ -70,17 +58,17 @@ public class Wget implements Runnable {
 
                 if (bytesCounter >= speed) {
                     long loadTime = currentTimeMillis() - loadStart;
-                    long sleepTime = (bytesCounter / speed * ONE_SECOND) - loadTime;
+                    long sleepTime = ONE_SECOND - loadTime;
                     if (sleepTime > 0) {
                         Thread.sleep(sleepTime);
-                        bytesCounter = 0;
-                        loadStart = currentTimeMillis();
                     }
+                    bytesCounter = 0;
+                    loadStart = currentTimeMillis();
                 }
             }
-            long finish = currentTimeMillis();
+
             System.out.printf("Downloaded %d bytes in %d ms, download rate - %sb/s",
-                    file.length(), finish - start, speed);
+                    file.length(), currentTimeMillis() - start, speed);
         } catch (IOException | InterruptedException e) {
             Thread.currentThread().interrupt();
             e.printStackTrace();
