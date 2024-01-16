@@ -1,5 +1,7 @@
 package ru.job4j.thread;
 
+import lombok.AllArgsConstructor;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -11,15 +13,11 @@ import java.nio.file.Paths;
 
 import static java.lang.System.currentTimeMillis;
 
+@AllArgsConstructor
 public class Wget implements Runnable {
     private static final int ONE_SECOND = 1000;
     private final String url;
     private final int speed;
-
-    public Wget(String url, int speed) {
-        this.url = url;
-        this.speed = speed;
-    }
 
     private static void validate(String[] args) {
         if (args.length != 2) {
