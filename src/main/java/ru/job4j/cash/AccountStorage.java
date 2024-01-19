@@ -20,9 +20,7 @@ public class AccountStorage {
     }
 
     public synchronized void delete(int id) {
-        if (getById(id).isPresent()) {
-            accounts.remove(id);
-        }
+        accounts.remove(id);
     }
 
     public synchronized Optional<Account> getById(int id) {
