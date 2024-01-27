@@ -22,13 +22,9 @@ public class SimpleBlockingQueue<T> {
         return queue.isEmpty();
     }
 
-    public synchronized void offer(T value) {
+    public synchronized void offer(T value) throws InterruptedException {
         while (queue.size() >= capacity) {
-            try {
-                wait();
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
+            wait();
         }
         queue.add(value);
         System.out.println("Value added to the queue: " + value);
