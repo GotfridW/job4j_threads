@@ -19,7 +19,7 @@ public class Cache {
             if (model.version() != stored.version()) {
                 throw new OptimisticException("Versions are not equal");
             }
-            return new Base(key, stored.name(), stored.version() + 1);
+            return new Base(key, model.name(), stored.version() + 1);
         };
 
         return memory.computeIfPresent(model.id(), updateFunction) != null;
