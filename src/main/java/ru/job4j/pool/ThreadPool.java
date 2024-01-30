@@ -1,5 +1,6 @@
 package ru.job4j.pool;
 
+import ru.job4j.concurrent.ConsoleProgress;
 import ru.job4j.queue.SimpleBlockingQueue;
 
 import java.util.LinkedList;
@@ -31,5 +32,20 @@ public class ThreadPool {
 
     public void shutdown() {
         threads.forEach(Thread::interrupt);
+    }
+
+    public static void main(String[] args) throws InterruptedException {
+        ThreadPool threadPool = new ThreadPool();
+        threadPool.work(new ConsoleProgress());
+        threadPool.work(new ConsoleProgress());
+        threadPool.work(new ConsoleProgress());
+        threadPool.work(new ConsoleProgress());
+        Thread.sleep(4000);
+        threadPool.threads.forEach(thread ->
+                System.out.println(thread.getName() + ": " + thread.getState()));
+        threadPool.shutdown();
+        Thread.sleep(500);
+        threadPool.threads.forEach(thread ->
+                System.out.println(thread.getName() + ": " + thread.getState()));
     }
 }
