@@ -16,7 +16,7 @@ public class ThreadPool {
             threads.add(new Thread(() -> {
                 while (!Thread.currentThread().isInterrupted()) {
                     try {
-                        tasks.poll();
+                        tasks.poll().run();
                     } catch (InterruptedException e) {
                         Thread.currentThread().interrupt();
                     }
@@ -38,11 +38,9 @@ public class ThreadPool {
         ThreadPool threadPool = new ThreadPool();
         threadPool.work(new ConsoleProgress());
         threadPool.work(new ConsoleProgress());
-        threadPool.work(new ConsoleProgress());
-        threadPool.work(new ConsoleProgress());
-        Thread.sleep(4000);
         threadPool.threads.forEach(thread ->
-                System.out.println(thread.getName() + ": " + thread.getState()));
+                System.out.printf("%n%s: %s", thread.getName(), thread.getState()));
+        Thread.sleep(4000);
         threadPool.shutdown();
         Thread.sleep(500);
         threadPool.threads.forEach(thread ->
