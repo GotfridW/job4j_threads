@@ -1,21 +1,10 @@
 package ru.job4j.pools;
 
-import lombok.*;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 public class RowColSum {
-
-    @AllArgsConstructor
-    @Getter
-    @Setter
-    @EqualsAndHashCode
-    public static class Sums {
-        private int rowSum;
-        private int colSum;
-    }
 
     public static Sums sumRowCol(int[][] matrix, int index) {
         int rowSum = 0;
